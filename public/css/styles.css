@@ -1,0 +1,412 @@
+/* Basic Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  line-height: 1.6;
+  padding: 20px;
+}
+
+/* Header */
+header#header {
+  background: linear-gradient(45deg, #6a1b9a, #d500f9);
+  color: white;
+  padding: 20px 0;
+  text-align: center;
+}
+
+header#header a {
+  color: white;
+  text-decoration: none;
+  font-size: 24px;
+  font-weight: bold;
+  transition: color 0.3s ease-in-out;
+}
+
+header#header a:hover {
+  color: #ff4081;  /* Accent color on hover */
+}
+
+header#header nav {
+  margin-top: 10px;
+}
+
+header#header nav a {
+  color: white;
+  margin: 0 15px;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+header#header nav a:hover {
+  text-decoration: underline;
+  color: #ff4081; /* Accent color on hover */
+}
+
+/* Main Layout */
+main#main {
+  padding: 30px;
+  background: linear-gradient(135deg, #f7f7f7, #fff); /* Light gradient */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Soft shadow */
+}
+
+/* Footer */
+footer#footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  margin-top: 40px;
+  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);  /* Soft shadow on top */
+}
+
+footer#footer a {
+  color: #ff4081;  /* Accent color */
+  text-decoration: none;
+}
+
+footer#footer a:hover {
+  text-decoration: underline;
+}
+
+/* General Styling for Sections */
+section {
+  margin-bottom: 20px;
+}
+
+h1.page-title {
+  font-size: 32px;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #6a1b9a;  /* Accent color */
+}
+
+/* Form Styling */
+form {
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
+}
+
+form div {
+  margin-bottom: 10px;
+}
+
+form label {
+  font-weight: bold;
+  color: #333;
+}
+
+form input, form textarea {
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: border 0.3s ease;
+}
+
+form input:focus, form textarea:focus {
+  border-color: #6a1b9a;  /* Accent color on focus */
+  outline: none;
+}
+
+form button {
+  padding: 12px 20px;
+  background-color: #6a1b9a;  /* Modern purple */
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+form button:hover {
+  background-color: #d500f9;
+  transform: translateY(-2px);  /* Subtle button lift effect */
+}
+
+form button:active {
+  transform: translateY(2px);  /* Button clicks to give a depressed effect */
+}
+
+/* Link Styling */
+a {
+  color: #333;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Admin Pages (Skills & Projects) */
+.admin-page {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.admin-page .main-content {
+  margin-bottom: 30px;
+}
+
+.admin-page .main-content h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.admin-page .main-content h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #6a1b9a;  /* Accent color */
+}
+
+.admin-page .main-content div {
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.admin-page .main-content div:hover {
+  background-color: #f0f0f0;  /* Slightly darker on hover */
+}
+
+.admin-page .main-content div a {
+  color: #e91e63;  /* Red color for delete links */
+  text-decoration: none;
+}
+
+.admin-page .main-content div a:hover {
+  color: #d500f9;  /* Accent color on hover */
+}
+
+/* Add Skill and Project Pages */
+.add-item-page form {
+  max-width: 600px;
+  margin: 20px auto;
+}
+/* Styling for Manage Buttons (Skills and Projects) */
+button.manage-btn {
+  background-color: #6a1b9a;  /* Modern purple background */
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  font-weight: bold;
+  margin: 5px;
+}
+
+button.manage-btn:hover {
+  background-color: #d500f9;  /* Lighter purple on hover */
+  transform: translateY(-2px);  /* Slight lift effect */
+}
+
+button.manage-btn:active {
+  transform: translateY(2px);  /* Button click effect */
+}
+
+/* Styling for Delete Buttons */
+button.delete-btn {
+  background-color: #e91e63;  /* Red color for delete action */
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  font-weight: bold;
+  margin: 5px;
+}
+
+button.delete-btn:hover {
+  background-color: #d500f9;  /* Change to accent color on hover */
+  transform: translateY(-2px);  /* Slight lift effect */
+}
+
+button.delete-btn:active {
+  transform: translateY(2px);  /* Button click effect */
+}
+
+/* General Button Styling */
+button {
+  font-size: 16px;
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+/* Styling for Manage Buttons (Skills and Projects) */
+button.manage-btn {
+  background-color: #6a1b9a;  /* Modern purple background */
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  font-weight: bold;
+  margin: 5px;
+}
+
+button.manage-btn:hover {
+  background-color: #d500f9;  /* Lighter purple on hover */
+  transform: translateY(-2px);  /* Slight lift effect */
+}
+
+button.manage-btn:active {
+  transform: translateY(2px);  /* Button click effect */
+}
+
+/* Styling for Delete Buttons */
+/* Styling for Delete Buttons */
+a.delete-btn {
+  background-color: #e91e63;  /* Red color for delete action */
+  color: white;
+  padding: 5px 10px;  /* Reduced padding to make the button smaller */
+  font-size: 14px;  /* Reduced font size */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  font-weight: bold;
+  margin: 5px;
+  text-decoration: none;  /* Remove default underline from links */
+}
+
+a.delete-btn:hover {
+  background-color: #d500f9;  /* Change to accent color on hover */
+  transform: translateY(-2px);  /* Slight lift effect */
+}
+
+a.delete-btn:active {
+  transform: translateY(2px);  /* Button click effect */
+}
+/* Styling for Clickable URLs */
+a {
+  color: #5c6bc0; /* Soft blue color for links */
+  text-decoration: none; /* Remove default underline */
+  transition: color 0.3s ease, text-decoration 0.3s ease; /* Smooth transition for color and underline */
+}
+
+/* Hover effect for clickable URLs */
+a:hover {
+  color: #ff4081; /* Change color to pink on hover */
+  text-decoration: underline; /* Underline the link on hover */
+}
+
+/* Optional: Add focus effect for accessibility (when using keyboard) */
+a:focus {
+  outline: 2px solid #ff4081; /* Highlight link with a pink outline when focused */
+}
+/* Main container for skills and projects */
+.skills-projects-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px; /* Space between the two sections */
+}
+
+/* Styling for Skills Section */
+.skills-section {
+  flex: 1; /* Takes up half of the space */
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 6px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for Projects Section */
+.projects-section {
+  flex: 1; /* Takes up half of the space */
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 6px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure text is properly aligned and readable */
+.skills-section h2, .projects-section h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.skills-section h3, .projects-section h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.skills-section p, .projects-section p {
+  font-size: 16px;
+  color: #555;
+}
+
+
+
+/* Responsive Button Design */
+@media (max-width: 768px) {
+  button {
+    width: 100%;
+    font-size: 14px;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  header#header {
+    padding: 15px;
+  }
+
+  header#header nav a {
+    font-size: 16px;
+    margin: 0 10px;
+  }
+
+  .admin-page .main-content {
+    padding: 10px;
+  }
+
+  .admin-page .main-content h2 {
+    font-size: 24px;
+  }
+
+  form {
+    width: 100%;
+  }
+
+  form input, form textarea {
+    font-size: 14px;
+  }
+
+  .admin-page .main-content div {
+    padding: 10px;
+  }
+}

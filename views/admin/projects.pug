@@ -1,0 +1,29 @@
+extends ../common/layout
+
+block layout-content
+  .main-content
+    h1 Add New Project
+
+    
+    form(method="POST", action="/admin/projects/add/submit")
+      div
+        label(for="name") Project Name:
+        input(type="text", id="name", name="name", placeholder="e.g. Portfolio Website" required)
+      div
+        label(for="description") Description:
+        textarea(id="description", name="description", placeholder="e.g. Personal portfolio website" required)
+      div
+        label(for="url") Project URL:
+        input(type="text", id="url", name="url", placeholder="e.g. /portfolio" required)
+      button.manage-btn(type="submit") Add Project  
+
+    
+    h3 Existing Projects
+    each project in projects
+      div
+        h3 #{project.name}
+        p Description: #{project.description}
+        p 
+          | URL: 
+          a(href=project.url, target="_blank") #{project.url}
+        a.delete-btn(href=`/admin/projects/delete/${encodeURIComponent(project.name)}`) Delete

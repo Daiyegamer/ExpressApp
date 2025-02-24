@@ -1,0 +1,24 @@
+extends ../common/layout
+
+block layout-content
+  .main-content
+    h1 Add New Skill
+
+    // Form to add a new skill
+    form(method="POST", action="/admin/skills/add/submit")
+      div
+        label(for="name") Skill Name:
+        input(type="text", id="name", name="name", placeholder="e.g. JavaScript" required)
+      div
+        label(for="proficiency") Proficiency:
+        input(type="text", id="proficiency", name="proficiency", placeholder="e.g. Expert" required)
+      button.manage-btn(type="submit") Add Skill  // Added the manage-btn class here
+
+    // Render Skills Section (with Delete Link)
+    h3 Existing Skills
+    each skill in skills
+      div
+        h3 #{skill.name}
+        p Proficiency: #{skill.proficiency}
+        // Delete Skill Link (styled with delete-btn class)
+        a.delete-btn(href=`/admin/skills/delete/${encodeURIComponent(skill.name)}`) Delete
