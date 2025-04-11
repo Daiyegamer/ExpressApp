@@ -6,6 +6,13 @@ const dotenv = require("dotenv");
 
 // Load environment variables from .env file
 dotenv.config();
+const cors = require("cors");
+
+app.use(cors({
+  origin: "http://localhost:5174", // 👈 use your React app's URL
+  credentials: true
+}));
+
 
 
 // Set up the Express app
