@@ -42,6 +42,12 @@ app.use(
     resave: false,
   })
 );
+// Make session available in all Pug templates
+app.use((req, res, next) => {
+  res.locals.session = req.session;
+  next();
+});
+
 
 // Routes setup for managing skills and projects (admin pages)
 app.use("/admin/skills", require("./components/Skill/routes"));

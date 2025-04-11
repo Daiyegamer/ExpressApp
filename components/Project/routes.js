@@ -1,14 +1,22 @@
 const express = require("express");
 const router = express.Router();
-const { getAllProjects, addProject, deleteProject, getProjectsAPI} = require("./controller");  // Correct import for controller
+const { getAllProjects, addProject, deleteProject, getProjectsAPI } = require("./controller");
 
-// Admin Routes for Projects
-router.get("/", getAllProjects); // Render admin projects page
-router.post("/add/submit", addProject); // Handle form submission to add a new project
-router.get("/delete/:name", deleteProject); // Handle deleting a project by name
-router.get("/api/projects", getProjectsAPI);  
+// Middleware to check admin
+const checkAdmin = (req, res, next) => {
+  if (req.session?.loggedIn && req.session?.isAdmin) {
+    return next();
+  } else {
+    return res.redirect("/user/login");
+  }
+};
 
-// API Route to fetch all projects as JSON
+// Admin routes
+router.get("/", checkAdmin, getAllProjects);
+router.post("/add/submit", checkAdmin, addProject);
+router.get("/delete/:name", checkAdmin, deleteProject);
 
+// Public route
+router.get("/api/projects", getProjectsAPI);
 
 module.exports = router;

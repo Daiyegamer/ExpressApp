@@ -4,9 +4,7 @@ block layout-content
   .main-content
     h1.page-title Adil's Portfolio
 
-    // Container for Skills and Projects Sections
     .skills-projects-container
-      // Skills Section
       .skills-section
         h2 Skills
         if skills
@@ -14,12 +12,12 @@ block layout-content
             div
               h3 #{skill.name}
               p Proficiency: #{skill.proficiency}
-        
-        // Manage Skills Button on the Skills side
-        a(href="/admin/skills")
-          button.manage-btn(type="button") Manage Skills  
 
-      // Projects Section
+        // Only show Manage Skills button if logged in
+        if session && session.loggedIn
+          a(href="/admin/skills")
+            button.manage-btn(type="button") Manage Skills
+
       .projects-section
         h2 Projects
         if projects
@@ -30,7 +28,7 @@ block layout-content
               p URL: 
                 a(href="#{project.url}" target="_blank") #{project.url}
 
-        // Manage Projects Button on the Projects side
-        a(href="/admin/projects")
-          button.manage-btn(type="button") Manage Projects  
-
+        // Only show Manage Projects button if logged in
+        if session && session.loggedIn
+          a(href="/admin/projects")
+            button.manage-btn(type="button") Manage Projects
