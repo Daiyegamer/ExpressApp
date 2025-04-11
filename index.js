@@ -10,10 +10,9 @@ const app = express(); // ✅ Must be BEFORE app.use
 
 // ✅ Enable CORS for your React frontend
 app.use(cors({
-  origin: "http://localhost:5174", // change this to your React deployed site later
-  credentials: true
+  origin: true, // allows ALL origins
+  credentials: true, // allows cookies/auth headers
 }));
-
 // MongoDB connection
 const { connect } = require("./db");
 connect().then(() => {
