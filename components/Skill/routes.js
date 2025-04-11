@@ -1,14 +1,19 @@
 const express = require("express");
 const router = express.Router();
-const { getAllSkills, addSkill, deleteSkill, getSkillsAPI} = require("./controller");  // Correct path to controller
+const { getAllSkills, addSkill, deleteSkill } = require("./controller");
 
-// Admin Routes for Skills
-router.get("/", getAllSkills); // Render admin skills page
-router.post("/add/submit", addSkill); // Handle form submission to add a new skill
-router.get("/delete/:name", deleteSkill); // Handle deleting a skill by name (using GET for link)
-router.get("/api/skills", getSkillsAPI);  
+// Middleware to protect admin routes
+const checkAdmin = (req, res, next) => {
+  if (req.session?.loggedIn && req.session?.isAdmin) {
+    return next();
+  } else {
+    return res.redirect("/user/login");
+  }
+};
 
-// API Route to fetch all skills as JSON
-
+// Admin Routes for Skills (only accessible to logged-in admins)
+router.get("/", checkAdmin, getAllSkills);             // Render admin skills page
+router.post("/add/submit", checkAdmin, addSkill);      // Handle adding a skill
+router.get("/delete/:name", checkAdmin, deleteSkill);  // Handle deleting a skill
 
 module.exports = router;

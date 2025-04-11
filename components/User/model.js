@@ -5,7 +5,8 @@ const db = require("../../db"); //shared db stuff
 
 const UserSchema = new mongoose.Schema({
   user: String,
-  password: String
+  password: String,
+  isAdmin: { type: Boolean, default: false }
 });
 const User = mongoose.model("User", UserSchema);
 
@@ -17,10 +18,11 @@ async function authenticateUser(username, pw) {
     user: username,
     password: key.toString("base64")
   });
-  if (result)
-    return true;
-  else
-    return false;
+  if (result) {
+    return { isAuthenticated: true, isAdmin: result.isAdmin };  // Return admin status
+  } else {
+    return { isAuthenticated: false, isAdmin: false };
+  }
 }
 async function getUser(username) {
   await db.connect();
