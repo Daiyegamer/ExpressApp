@@ -30,9 +30,29 @@ const addSkill = async (req, res) => {
 
 const deleteSkill = async (req, res) => {
   const name = req.params.name;
-  await skillModel.deleteSkillByName(name);
-  res.redirect("/admin/skills");
+  console.log("🔴 Skill delete triggered for", name);
+
+  try {
+    await skillModel.deleteSkillByName(name);
+
+    // ✅ If React (expects JSON)
+    if (req.headers.accept?.includes("application/json")) {
+      return res.json({ success: true });
+    }
+
+    // ✅ If browser/Pug view (redirect back)
+    res.redirect("/admin/skills");
+  } catch (err) {
+    console.error("❌ Delete skill error:", err);
+
+    if (req.headers.accept?.includes("application/json")) {
+      return res.status(500).json({ success: false, message: "Error deleting skill" });
+    }
+
+    res.redirect("/admin/skills");
+  }
 };
+
 
 const getSkillsAPI = async (req, res) => {
   const skills = await skillModel.getSkills();

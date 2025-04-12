@@ -34,12 +34,31 @@ const addProject = async (req, res) => {
   }
 };
 
-// Delete project by name
 const deleteProject = async (req, res) => {
   const projectName = req.params.name;
-  await projectModel.deleteProjectByName(projectName);
-  res.redirect("/admin/projects");
+  console.log("🟠 Project delete triggered for", projectName);
+
+  try {
+    await projectModel.deleteProjectByName(projectName);
+
+    // ✅ For React
+    if (req.headers.accept?.includes("application/json")) {
+      return res.json({ success: true });
+    }
+
+    // ✅ For Pug
+    res.redirect("/admin/projects");
+  } catch (err) {
+    console.error("❌ Delete project error:", err);
+
+    if (req.headers.accept?.includes("application/json")) {
+      return res.status(500).json({ success: false, message: "Error deleting project" });
+    }
+
+    res.redirect("/admin/projects");
+  }
 };
+
 
 // API: return all projects as JSON
 const getProjectsAPI = async (req, res) => {
