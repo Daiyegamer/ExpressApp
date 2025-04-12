@@ -13,11 +13,30 @@ const getAllSkills = async (request, response) => {
 };
 
 // Add a new skill
-const addSkill = async (request, response) => {
-  const { name, proficiency } = request.body;
-  await skillModel.addSkill(name, proficiency);
-  response.redirect("/admin/skills");
+
+
+const addSkill = async (req, res) => {
+  try {
+    const { name, level } = req.body;
+
+    if (!name || !level) {
+      return res.status(400).json({ message: "Missing name or level" });
+    }
+
+    await skillModel.addSkill(name, level);
+
+    // Check if it's a React request
+    if (req.headers.accept && req.headers.accept.includes("application/json")) {
+      res.json({ success: true });
+    } else {
+      res.redirect("/admin/skills");
+    }
+  } catch (err) {
+    console.error("Add Skill Error:", err);
+    res.status(500).json({ message: "Error adding skill" });
+  }
 };
+
 
 // Delete a skill by name (using GET for delete link)
 const deleteSkill = async (request, response) => {

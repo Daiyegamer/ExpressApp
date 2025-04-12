@@ -1,7 +1,7 @@
 const projectModel = require("./model");
 
-// Get all projects and render the admin page for projects
-const getAllProjects = async (request, response) => {
+// Render admin page with all projects
+const getAllProjects = async (req, res) => {
   let projectList = await projectModel.getProjects();
 
   if (!projectList.length) {
@@ -9,31 +9,47 @@ const getAllProjects = async (request, response) => {
     projectList = await projectModel.getProjects();
   }
 
-  response.render("admin/projects", { projects: projectList });
+  res.render("admin/projects", { projects: projectList });
 };
 
-// Add a new project
-const addProject = async (request, response) => {
-  const { name, description, url } = request.body;
-  await projectModel.addProject(name, description, url);
-  response.redirect("/admin/projects");
+// Add new project (supports both React and Pug)
+const addProject = async (req, res) => {
+  try {
+    const { name, description, url } = req.body;
+
+    if (!name || !description) {
+      return res.status(400).json({ message: "Missing name or description" });
+    }
+
+    await projectModel.addProject(name, description, url);
+
+    if (req.headers.accept.includes("application/json")) {
+      return res.json({ success: true });
+    }
+
+    res.redirect("/admin/projects");
+  } catch (err) {
+    console.error("Add Project Error:", err);
+    res.status(500).json({ message: "Error adding project" });
+  }
 };
 
-// Delete a project by name (instead of ID)
-const deleteProject = async (request, response) => {
-  const projectName = request.params.name;  // Get the project name from the URL
-  await projectModel.deleteProjectByName(projectName);  // Delete project by name
-  response.redirect("/admin/projects");
+// Delete project by name
+const deleteProject = async (req, res) => {
+  const projectName = req.params.name;
+  await projectModel.deleteProjectByName(projectName);
+  res.redirect("/admin/projects");
 };
-const getProjectsAPI = async (request, response) => {
-  let skillList = await skillModel.getProjects();  // Fetch skills from the model
-  response.json(skillList);  // Return the skills as JSON
+
+// API: return all projects as JSON
+const getProjectsAPI = async (req, res) => {
+  const projectList = await projectModel.getProjects();
+  res.json(projectList);
 };
 
 module.exports = {
   getAllProjects,
   addProject,
   deleteProject,
-  getProjectsAPI
-  
+  getProjectsAPI,
 };
