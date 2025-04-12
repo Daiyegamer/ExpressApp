@@ -1,38 +1,59 @@
 const userModel = require("./model");
 
-const getUser = async (request, response) => {
-  if (request.session.loggedIn) {
-    response.json({
-      loggedIn: true,
-      username: request.session.user,
-      isAdmin: request.session.isAdmin || false,
-    });
-  } else {
-    response.status(401).json({ loggedIn: false });
+const getUser = async (req, res) => {
+  if (req.session.loggedIn) {
+    // React frontend calls: return JSON
+    if (req.headers.accept?.includes("application/json")) {
+      return res.json({
+        loggedIn: true,
+        username: req.session.user,
+        isAdmin: req.session.isAdmin ?? false,
+      });
+    }
+
+    // Express Pug views: render user page
+    return res.render("user/user", { username: req.session.user });
   }
+
+  // Not logged in
+  if (req.headers.accept?.includes("application/json")) {
+    return res.status(401).json({ loggedIn: false });
+  }
+
+  // Not logged in, using browser — redirect to login page
+  return res.redirect("/user/login");
 };
+
 
 const loginForm = (request, response) => {
   response.render("user/login");
 };
 
-const login = async (request, response) => {
-  const { u, pw } = request.body;
+const login = async (req, res) => {
+  const { u, pw } = req.body;
 
-  // authenticateUser returns { isAuthenticated, isAdmin }
-  let auth = await userModel.authenticateUser(u, pw);
+  const auth = await userModel.authenticateUser(u, pw);
   console.log("Auth result:", auth);
 
   if (auth && auth.isAuthenticated) {
-    request.session.loggedIn = true;
-    request.session.user = u;
-    request.session.isAdmin = auth.isAdmin;
+    req.session.loggedIn = true;
+    req.session.user = u;
+    req.session.isAdmin = auth.isAdmin;
 
-    // ✅ Send back JSON for React
-    response.json({ success: true, isAdmin: auth.isAdmin });
+    // ✅ If React is calling this (fetch/axios)
+    if (req.headers.accept?.includes("application/json")) {
+      return res.json({ success: true, isAdmin: auth.isAdmin });
+    }
+
+    // ✅ If browser form (Pug login page)
+    return res.redirect("/user");
   } else {
-    // ✅ Send back failure message
-    response.status(401).json({ success: false, message: "Invalid credentials" });
+    // ❌ Failed login
+    if (req.headers.accept?.includes("application/json")) {
+      return res.status(401).json({ success: false, message: "Invalid credentials" });
+    }
+
+    return res.render("user/login", { err: "Invalid username or password" });
   }
 };
 

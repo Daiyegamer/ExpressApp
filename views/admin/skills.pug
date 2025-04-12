@@ -10,14 +10,15 @@ block layout-content
         label(for="name") Skill Name:
         input(type="text", id="name", name="name", placeholder="e.g. JavaScript" required)
       div
-        label(for="proficiency") Proficiency:
-        input(type="text", id="proficiency", name="proficiency", placeholder="e.g. Expert" required)
+        label(for="level") Level:
+        input(type="text", id="level", name="level", placeholder="e.g. Expert" required)
       button.manage-btn(type="submit") Add Skill 
+
     // Render Skills Section (with Delete Link)
     h3 Existing Skills
     each skill in skills
       div
         h3 #{skill.name}
-        p Proficiency: #{skill.proficiency}
+        p Level: #{skill.level}
         // Delete Skill Link (styled with delete-btn class)
         a.delete-btn(href=`/admin/skills/delete/${encodeURIComponent(skill.name)}`) Delete

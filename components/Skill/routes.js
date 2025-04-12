@@ -2,7 +2,10 @@ const express = require("express");
 const router = express.Router();
 const { getAllSkills, addSkill, deleteSkill } = require("./controller");
 
-// Middleware to protect admin routes
+// ✅ Public route for React
+router.post("/add", addSkill); // React sends JSON here
+
+// ✅ Middleware to protect admin views
 const checkAdmin = (req, res, next) => {
   if (req.session?.loggedIn && req.session?.isAdmin) {
     return next();
@@ -11,9 +14,9 @@ const checkAdmin = (req, res, next) => {
   }
 };
 
-// Admin Routes for Skills (only accessible to logged-in admins)
-router.get("/", checkAdmin, getAllSkills);             // Render admin skills page
-router.post("/add/submit", checkAdmin, addSkill);      // Handle adding a skill
-router.get("/delete/:name", checkAdmin, deleteSkill);  // Handle deleting a skill
+// Admin-only Pug routes
+router.get("/", checkAdmin, getAllSkills);             // Admin view
+router.post("/add/submit", checkAdmin, addSkill);      // Pug form submit
+router.get("/delete/:name", checkAdmin, deleteSkill);  // Pug delete
 
 module.exports = router;

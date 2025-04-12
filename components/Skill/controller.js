@@ -1,22 +1,14 @@
 const skillModel = require("./model");
 
-// Get all skills and render the admin page for skills
-const getAllSkills = async (request, response) => {
-  let skillList = await skillModel.getSkills();
-
-  if (!skillList.length) {
-    await skillModel.initializeSkills();
-    skillList = await skillModel.getSkills();
-  }
-
-  response.render("admin/skills", { skills: skillList });
+const getAllSkills = async (req, res) => {
+  const skills = await skillModel.getSkills();
+  res.render("admin/skills", { skills });
 };
-
-// Add a new skill
-
 
 const addSkill = async (req, res) => {
   try {
+
+    console.log("BODY:", req.body); 
     const { name, level } = req.body;
 
     if (!name || !level) {
@@ -25,29 +17,26 @@ const addSkill = async (req, res) => {
 
     await skillModel.addSkill(name, level);
 
-    // Check if it's a React request
-    if (req.headers.accept && req.headers.accept.includes("application/json")) {
-      res.json({ success: true });
-    } else {
-      res.redirect("/admin/skills");
+    if (req.headers.accept?.includes("application/json")) {
+      return res.json({ success: true });
     }
+
+    res.redirect("/admin/skills");
   } catch (err) {
     console.error("Add Skill Error:", err);
     res.status(500).json({ message: "Error adding skill" });
   }
 };
 
-
-// Delete a skill by name (using GET for delete link)
-const deleteSkill = async (request, response) => {
-  const skillName = request.params.name;  // Get the skill name from the URL
-  await skillModel.deleteSkillByName(skillName);  // Delete skill by name
-  response.redirect("/admin/skills");  // Redirect back to the skills admin page
+const deleteSkill = async (req, res) => {
+  const name = req.params.name;
+  await skillModel.deleteSkillByName(name);
+  res.redirect("/admin/skills");
 };
 
-const getSkillsAPI = async (request, response) => {
-  let skillList = await skillModel.getSkills();  // Fetch skills from the model
-  response.json(skillList);  // Return the skills as JSON
+const getSkillsAPI = async (req, res) => {
+  const skills = await skillModel.getSkills();
+  res.json(skills);
 };
 
 module.exports = {
@@ -55,5 +44,4 @@ module.exports = {
   addSkill,
   deleteSkill,
   getSkillsAPI
-  
 };

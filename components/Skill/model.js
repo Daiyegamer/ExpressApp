@@ -4,7 +4,7 @@ const db = require("../../db"); // Shared db connection
 // Set up the schema and model for skills
 const SkillSchema = new mongoose.Schema({
   name: String,
-  proficiency: String
+  level: String
 }); 
 const Skill = mongoose.model("Skill", SkillSchema);
 
@@ -19,30 +19,30 @@ async function getSkills() {
 // Initialize skills collection with some initial data
 async function initializeSkills() {
   const skillList = [
-    { name: "JavaScript", proficiency: "Expert" },
-    { name: "HTML & CSS", proficiency: "Advanced" }
+    { name: "JavaScript", level: "Expert" },
+    { name: "HTML & CSS", level: "Advanced" }
   ];
   await Skill.insertMany(skillList);  // Insert the sample skills into the collection
 }
 
 // Add a new skill to the collection
-async function addSkill(skillName, skillProficiency) {
+async function addSkill(skillName, skillLevel) {
   await db.connect();
   let newSkill = new Skill({
     name: skillName,
-    proficiency: skillProficiency
+    level: skillLevel
   });
   
   let result = await newSkill.save();  // Save the new skill to the DB
   console.log(result);
 }
 
-// Update an existing skill's proficiency level
-async function updateSkillProficiency(skillName, newProficiency) {
+// Update an existing skill's level
+async function updateSkillLevel(skillName, newLevel) {
   await db.connect();
   let result = await Skill.updateOne(
     { name: skillName },
-    { proficiency: newProficiency }
+    { level: newLevel }
   );
   // Check if the update was successful by inspecting result.modifiedCount
   console.log(result);
@@ -59,6 +59,6 @@ module.exports = {
   getSkills,
   initializeSkills,
   addSkill,
-  updateSkillProficiency,
+  updateSkillLevel,
   deleteSkillByName
 };
