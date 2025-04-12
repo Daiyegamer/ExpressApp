@@ -1,5 +1,7 @@
 const projectModel = require("./model");
 
+
+
 // Render admin page with all projects
 const getAllProjects = async (req, res) => {
   let projectList = await projectModel.getProjects();
@@ -37,6 +39,8 @@ const addProject = async (req, res) => {
 const deleteProject = async (req, res) => {
   const projectName = req.params.name;
   console.log("🟠 Project delete triggered for", projectName);
+  console.log("✅ DELETE route hit:", req.params.name);
+
 
   try {
     await projectModel.deleteProjectByName(projectName);

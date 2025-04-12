@@ -37,7 +37,12 @@ app.use(sessions({
   name: "MyUniqueSessID",
   saveUninitialized: false,
   resave: false,
+  cookie: {
+    sameSite: "none", // ✅ Allow cross-origin cookies
+    secure: true      // ✅ Cookies only over HTTPS (Render uses HTTPS)
+  }
 }));
+
 
 // ✅ Make session available in Pug views
 app.use((req, res, next) => {

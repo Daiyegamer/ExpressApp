@@ -31,6 +31,7 @@ const addSkill = async (req, res) => {
 const deleteSkill = async (req, res) => {
   const name = req.params.name;
   console.log("🔴 Skill delete triggered for", name);
+  console.log("✅ DELETE route hit:", req.params.name);
 
   try {
     await skillModel.deleteSkillByName(name);
