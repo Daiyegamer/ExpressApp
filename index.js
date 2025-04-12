@@ -31,7 +31,7 @@ app.set("view engine", "pug");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
-
+app.set("trust proxy", 1);
 app.use(sessions({
   secret: process.env.SESSIONSECRET,
   name: "MyUniqueSessID",
