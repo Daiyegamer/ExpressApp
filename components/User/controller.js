@@ -1,11 +1,14 @@
 const userModel = require("./model");
 
 const getUser = async (request, response) => {
-  console.log(request.session);
   if (request.session.loggedIn) {
-    response.render("user/user", { username: request.session.user });
+    response.json({
+      loggedIn: true,
+      username: request.session.user,
+      isAdmin: request.session.isAdmin || false,
+    });
   } else {
-    response.redirect("/user/login");
+    response.status(401).json({ loggedIn: false });
   }
 };
 
@@ -16,19 +19,23 @@ const loginForm = (request, response) => {
 const login = async (request, response) => {
   const { u, pw } = request.body;
 
-  // Updated: get back both isAuthenticated and isAdmin
+  // authenticateUser returns { isAuthenticated, isAdmin }
   let auth = await userModel.authenticateUser(u, pw);
   console.log("Auth result:", auth);
 
   if (auth && auth.isAuthenticated) {
     request.session.loggedIn = true;
     request.session.user = u;
-    request.session.isAdmin = auth.isAdmin;  // ✅ Store admin status in session
-    response.redirect("/user");
+    request.session.isAdmin = auth.isAdmin;
+
+    // ✅ Send back JSON for React
+    response.json({ success: true, isAdmin: auth.isAdmin });
   } else {
-    response.render("user/login", { err: "User not found" });
+    // ✅ Send back failure message
+    response.status(401).json({ success: false, message: "Invalid credentials" });
   }
 };
+
 
 const logout = (request, response) => {
   request.session.destroy(() => {
