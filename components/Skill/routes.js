@@ -9,10 +9,15 @@ router.post("/add", addSkill); // React sends JSON here
 const checkAdmin = (req, res, next) => {
   if (req.session?.loggedIn && req.session?.isAdmin) {
     return next();
-  } else {
-    return res.redirect("/user/login");
   }
+
+  if (req.headers.accept?.includes("application/json")) {
+    return res.status(401).json({ success: false, message: "Unauthorized" });
+  }
+
+  return res.redirect("/user/login");
 };
+
 
 // Admin-only Pug routes
 router.get("/", checkAdmin, getAllSkills);             // Admin view
