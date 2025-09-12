@@ -11,7 +11,7 @@ block layout-content
           each skill in skills
             div
               h3 #{skill.name}
-              p Proficiency: #{skill.proficiency}
+              p Proficiency: #{skill.level}
 
         // Only show Manage Skills button if logged in
         if session && session.loggedIn
